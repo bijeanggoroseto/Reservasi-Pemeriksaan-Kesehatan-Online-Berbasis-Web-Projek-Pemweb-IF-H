@@ -11,18 +11,10 @@
             height: 300px;
         }
 
-        p {
-            font-size: 20px;
-        }
-
-        .title2 {
+        #namaLokasi {
             font-size: 40px;
             margin: 0px;
             align-self: center;
-        }
-
-        label {
-            font-size: 20px;
         }
 
         #inputJadwal {
@@ -32,9 +24,17 @@
             border-radius: 5px;
             border: 1px solid gray;
         }
-
+        
         #submit {
             width: 100px;
+        }
+
+        p {
+            font-size: 20px;
+        }
+
+        label {
+            font-size: 20px;
         }
 
         select {
@@ -54,8 +54,8 @@
     <div style="display: flex; margin: 20px 0px 20px 20px;">
         <img id="gambarLokasi" src="images/hospital.png">
         <div style="margin-left: 20px;">
-            <h2 class="title2">hospital 1</h2>
-            <div class="textContainer">
+            <h2 id="namaLokasi">hospital 1</h2>
+            <div class="teksDeskripsi">
                 <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloribus ipsam ducimus asperiores, voluptas animi doloremque officiis corrupti eum, cumque, sunt id aspernatur. Repudiandae, ipsum odio et culpa nobis reiciendis sequi?</p>
             </div>
             <div style="display: flex;">

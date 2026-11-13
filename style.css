@@ -14,14 +14,14 @@ a {
     color: inherit;
 }
 
-.textContainer {
+.teksDeskripsi {
     width: calc(100% - 20px);
     height: 150px;
     overflow-y: auto;
     overflow-x: hidden;
 }
 
-.title1 {
+.judulUtamaHeader {
     font-size: 60px;
     position: absolute;
     left: 0;
@@ -30,7 +30,7 @@ a {
     transform: translateY(-50%);
 }
 
-.userProfile {
+.profilPenggunaHeader {
     display: flex;
     position: absolute;
     height: 50px;
@@ -40,7 +40,7 @@ a {
     margin-right: 20px;
 }
 
-#userImage {
+#fotoProfilHeader {
     width: 50px; 
     height: 50px;
 }

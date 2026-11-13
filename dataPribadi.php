@@ -6,7 +6,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        #inputBox {
+        #kotakInput {
             margin-top: 50px;
             width: 600px;
             height: 350px;
@@ -15,7 +15,7 @@
             justify-self: center;
         }
 
-        #title2 {
+        h2 {
             height: 20px;
             justify-self: center;
             font-size: 30px;
@@ -36,8 +36,8 @@
 <body>
     <?php include("header.php") ?>
 
-    <div id="inputBox">
-        <h2 id="title2">Isi Data Pribadi</h2>
+    <div id="kotakInput">
+        <h2>Isi Data Pribadi</h2>
         <form action="pembayaran.php">
             <div>
                 <label for="nama">nama lengkap:</label>

@@ -6,7 +6,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        #inputBox {
+        #kotakInput {
             margin-top: 50px;
             width: 600px;
             height: 350px;
@@ -15,15 +15,15 @@
             justify-self: center;
         }
 
-        #title2 {
+        #nominal {
+            margin-left: 20px;
+            font-size: 20px;
+        }
+
+        h2 {
             height: 20px;
             justify-self: center;
             font-size: 30px;
-        }
-
-        .nominal {
-            margin-left: 20px;
-            font-size: 20px;
         }
 
         input {
@@ -41,11 +41,10 @@
 <body>
     <?php include("header.php") ?>
 
-    <div id="inputBox">
-        <h2 id="title2">Isi Data Pribadi</h2>
+    <div id="kotakInput">
+        <h2>Isi Data Pribadi</h2>
         <div style="display: flex;">
-            <p class="nominal">Nominal pembayaran: </p>
-            <p class="nominal">100.000</p>
+            <p id="nominal">Nominal pembayaran: <br>100.0000</p>
         </div>
         <form action="index.php">
             <input type="submit">

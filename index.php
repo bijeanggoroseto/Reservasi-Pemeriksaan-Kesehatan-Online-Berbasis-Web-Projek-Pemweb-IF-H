@@ -6,7 +6,7 @@
     <title>Antrean online</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        #search {
+        #kolomPencarian {
             margin: 20px 0px 10px 20px;
         }
 
@@ -20,7 +20,7 @@
 <body>
     <?php include("header.php") ?>
 
-    <input id="search" type="text" placeholder="search location">
+    <input id="kolomPencarian" type="text" placeholder="search location">
 
     <div style="display: grid;">
         <a href="lokasi.php"><div style="display: flex; margin-top: 10px;">
