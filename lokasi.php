@@ -1,3 +1,17 @@
+<?php 
+    include("connect.php");
+    $lokasiId = $_GET['id'];
+    $dataLokasi = $connect->query("SELECT * FROM lokasi WHERE id = $lokasiId")->fetch_object();
+    $queryLayananLokasi = $connect->query("SELECT layanan_lokasi.*, layanan.nama FROM layanan_lokasi JOIN layanan ON layanan_lokasi.layanan_id = layanan.id WHERE layanan_lokasi.lokasi_id = $lokasiId;");
+    $dataLayananLokasi = [];
+
+    $i = 0;
+    while ($data = $queryLayananLokasi->fetch_object()) {
+        $dataLayananLokasi[$i++] = $data;
+    }
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -52,32 +66,54 @@
     <?php include("header.php") ?>
 
     <div style="display: flex; margin: 20px 0px 20px 20px;">
-        <img id="gambarLokasi" src="images/hospital.png">
+        <img id="gambarLokasi" src="<?php echo $dataLokasi->gambar ?>">
         <div style="margin-left: 20px;">
-            <h2 id="namaLokasi">hospital 1</h2>
+            <h2 id="namaLokasi"><?php echo $dataLokasi->nama ?></h2>
             <div class="teksDeskripsi">
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloribus ipsam ducimus asperiores, voluptas animi doloremque officiis corrupti eum, cumque, sunt id aspernatur. Repudiandae, ipsum odio et culpa nobis reiciendis sequi?</p>
+                <p><?php echo $dataLokasi->deskripsi ?></p>
             </div>
             <div style="display: flex;">
-                <p>Senin-Jumat 08:00-16:00</p>
+                <p>Alamat: <?php echo $dataLokasi->alamat ?></p>
             </div>
         </div>
     </div>
 
-    <form action="dataPribadi.php" style="display: grid; margin: 20px 20px;">
-        <label for="kategori">Pilih Kategori Pemeriksaan</label>
-        <select id="kategori" name="kategori" required>
-            <option value="" disabled selected>Pilih kategori</option>
-            <option value="pemeriksaanUmum">Pemeriksaan umum</option>
-            <option value="rontgenTulang">Rontgen tulang</option>
-            <option value="tesDarah">Tes darah</option>
-        </select>
+    <form action="dataPribadi.php" method="POST" style="display: grid; margin: 20px 20px;">
+        <div style="display: flex;">
+            <div style="display: grid;">
+                <label for="jenisLayanan">Pilih Jenis Pemeriksaan</label>
+                <select id="jenisLayanan" name="jenisLayanan" required>
+                    <option value="" disabled selected>Pilih</option>
+                    <?php $j = 0; while($j < $i){ ?>
+                    <option value="<?= $j ?>"><?= $dataLayananLokasi[$j]->nama ?></option>
+                    <?php $j++; } ?>
+                </select>
+            </div>
+            <p id="durasi" style="margin-left: 30px;">Durasi: </p>
+            <p id="harga" style="margin-left: 30px;">Harga: </p>
+        </div>
 
         <label for="inputJadwal">Pilih Jadwal</label>
         <input id="inputJadwal" type="date" name="jadwal" required>
 
-        <input id="submit" type="submit">
+        <input type="hidden" name="layananLokasiId" id="layananLokasiId">
+
+        <input id="submit" type="submit" name="lokasiLayanan" value="lokasiLayanan">
     </form>
 
+    <script>
+        const dataLayananLokasi = <?= json_encode($dataLayananLokasi) ?>;
+        const jenisLayanan = document.getElementById("jenisLayanan");
+        const durasi = document.getElementById("durasi");
+        const harga = document.getElementById("harga");
+        const layananLokasiId = document.getElementById("layananLokasiId");
+        
+        jenisLayanan.addEventListener("change", function() {
+            let layananId = parseInt(jenisLayanan.value);
+            durasi.textContent = "Durasi: " + dataLayananLokasi[layananId].durasi_menit + "menit";
+            harga.textContent = "Harga: " + dataLayananLokasi[layananId].harga;
+            layananLokasiId.value = dataLayananLokasi[layananId].id;
+        });
+    </script>
 </body>
 </html>

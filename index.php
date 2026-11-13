@@ -1,3 +1,8 @@
+<?php 
+    include("connect.php");
+    $query = $connect->query("SELECT * FROM lokasi");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,27 +28,20 @@
     <input id="kolomPencarian" type="text" placeholder="search location">
 
     <div style="display: grid;">
-        <a href="lokasi.php"><div style="display: flex; margin-top: 10px;">
-            <img class="gambarLokasi" src="images/hospital.png">
+
+        <?php while($data = $query->fetch_object()){ ?>
+        <a href="lokasi.php?id=<?php  echo $data->id; ?>"><div style="display: flex; margin-top: 10px;">
+            <img class="gambarLokasi" src="<?php echo $data->gambar ?>">
             <div style="margin-left: 10px;">
-                <h2>hospital 1</h2>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloribus ipsam ducimus asperiores, voluptas animi doloremque officiis corrupti eum, cumque, sunt id aspernatur. Repudiandae, ipsum odio et culpa nobis reiciendis sequi?</p>
+                <h2><?php echo $data->nama ?></h2>
+                <p><?php echo $data->deskripsi ?></p>
                 <div style="display: flex;">
                     <p>Senin-Jumat 08:00-16:00</p>
                 </div>
             </div>
         </div></a>
-        
-        <a href="lokasi.php"><div style="display: flex; margin-top: 10px;">
-            <img class="gambarLokasi" src="images/hospital.png">
-            <div style="margin-left: 10px;">
-                <h2>hospital 2</h2>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloribus ipsam ducimus asperiores, voluptas animi doloremque officiis corrupti eum, cumque, sunt id aspernatur. Repudiandae, ipsum odio et culpa nobis reiciendis sequi?</p>
-                <div style="display: flex;">
-                    <p>Senin-Jumat 08:00-16:00</p>
-                </div>
-            </div>
-        </div></a>
+        <?php } ?>
+
     </div>
 </body>
 </html>

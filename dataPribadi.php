@@ -1,3 +1,12 @@
+<?php
+include("connect.php");
+if(isset($_POST['lokasiLayanan'])){
+    $layananLokasiId = $_POST["layananLokasiId"];
+    $jadwal = $_POST["jadwal"];
+}
+else{echo("error");}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,23 +47,27 @@
 
     <div id="kotakInput">
         <h2>Isi Data Pribadi</h2>
-        <form action="pembayaran.php">
+        <form action="buatReservasi.php" method="POST">
             <div>
                 <label for="nama">nama lengkap:</label>
-                <input id="nama" type="text" placeholder="nama lengkap">
+                <input id="nama" type="text" placeholder="nama lengkap" name="nama" required>
             </div>
             <div>
                 <label for="tanggalLahir">tanggal lahir:</label>
-                <input id="tanggalLahir" type="date">
+                <input id="tanggalLahir" type="date" name="tanggalLahir" required>
             </div>
             <div>
                 <label for="jenisKelamin">jenis kelamin:</label><br>
                 <label>Laki-laki</label>
-                <input id="jenisKelamin" name="jenisKelamin" type="radio" value="Male">
+                <input id="jenisKelamin" name="jenisKelamin" type="radio" value="male" required>
                 <label>Perempuan</label>
-                <input id="jenisKelamin" name="jenisKelamin" type="radio" value="Female">
+                <input id="jenisKelamin" name="jenisKelamin" type="radio" value="female" required>
             </div>
-            <input type="submit">
+
+            <input type="hidden" name="layananLokasiId" value="<?= $layananLokasiId ?>">
+            <input type="hidden" name="jadwal" value="<?= $jadwal ?>">
+
+            <input type="submit" name="buatReservasi" value="buatReservasi">
         </form>
     </div>
 </body>
