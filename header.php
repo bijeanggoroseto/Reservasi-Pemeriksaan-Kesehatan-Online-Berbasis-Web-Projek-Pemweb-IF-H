@@ -1,5 +1,9 @@
 <?php 
-    if(session_status()==PHP_SESSION_NONE)session_start();
+    session_start();
+    if(!isset($_SESSION["pengguna_id"])){
+        header("location: login.php");
+        die();
+    }
     include_once("connect.php");
 
     $namaHeader = "";

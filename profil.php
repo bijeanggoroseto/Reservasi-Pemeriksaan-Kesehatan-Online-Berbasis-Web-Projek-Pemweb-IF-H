@@ -1,11 +1,5 @@
 <?php
-session_start();
-include("connect.php");
-
-if (!isset($_SESSION["pengguna_id"])) {
-    header("Location: login.php");
-    die();
-}
+include("header.php");
 
 $penggunaId = $_SESSION["pengguna_id"];
 
@@ -49,7 +43,6 @@ if (isset($_POST["simpanProfil"])) {
 </head>
 
 <body>
-    <?php include("header.php"); ?>
     <h2>Edit Profil</h2>
     <?php if (isset($pesan)): {
         echo $pesan;

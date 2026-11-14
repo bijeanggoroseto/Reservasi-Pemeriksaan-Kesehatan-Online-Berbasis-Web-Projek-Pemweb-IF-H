@@ -1,12 +1,15 @@
 <?php
-include("connect.php");
-if(isset($_POST['lokasiLayanan'])){
+    include("header.php");
+
+    if(!isset($_POST['lokasiLayanan'])){
+        header("location: index.php");
+        die();
+    }
+
     $layananLokasiId = $_POST["layananLokasiId"];
     $jadwal = $_POST["jadwal"];
     $jamMulai = $_POST['jamMulai'];
     $jamSelesai = $_POST['jamSelesai'];
-}
-else{echo("error");}
 ?>
 
 <!DOCTYPE html>

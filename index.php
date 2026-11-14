@@ -1,5 +1,5 @@
 <?php 
-    include("connect.php");
+    include("header.php");
     $query = $connect->query("SELECT * FROM lokasi");
 ?>
 
@@ -23,14 +23,13 @@
     </style>
 </head>
 <body>
-    <?php include("header.php") ?>
 
     <input id="kolomPencarian" type="text" placeholder="search location">
 
     <div style="display: grid;">
 
         <?php while($data = $query->fetch_object()){ ?>
-        <a href="lokasi.php?id=<?php  echo $data->id; ?>"><div style="display: flex; margin-top: 10px;">
+        <a href="lokasi.php?lokasiId=<?php  echo $data->id; ?>"><div style="display: flex; margin-top: 10px;">
             <img class="gambarLokasi" src="<?php echo $data->gambar ?>">
             <div style="margin-left: 10px;">
                 <h2><?php echo $data->nama ?></h2>

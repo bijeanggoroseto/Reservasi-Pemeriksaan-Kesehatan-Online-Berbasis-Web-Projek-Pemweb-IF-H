@@ -1,14 +1,12 @@
 <?php
-    session_start();
-    include("connect.php");
+    include("header.php");
 
-    if(!isset($_SESSION["pengguna_id"])){
-        header("location: login.php");
+    $penggunaId = $_SESSION["reservasiId"];
+    if(!isset($_GET['lokasiLayanan'])){
+        header("location: index.php");
         die();
     }
-
-    $penggunaId = $_SESSION["pengguna_id"];
-    $reservasiId = $_GET["id"];
+    $reservasiId = $_GET["reservasiId"];
 
     if(isset($_POST["bayar"])){
         $queryBayar = mysqli_query($connect,"UPDATE reservasi SET status_pembayaran = 1 
@@ -77,8 +75,6 @@
     </style>
 </head>
 <body>
-    <?php include("header.php") ?>
-
     <div id="kotakInput">
         <h2>Konfirmasi Pembayaran</h2>
         <div style="display: flex;">

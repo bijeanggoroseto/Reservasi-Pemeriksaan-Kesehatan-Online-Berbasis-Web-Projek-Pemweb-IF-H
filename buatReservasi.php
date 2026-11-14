@@ -1,7 +1,11 @@
 <?php
-session_start();
-include("connect.php");
-if(isset($_POST['buatReservasi'])){
+    session_start();
+    include("connect.php");
+
+    if(!isset($_POST['lokasiLayanan'])){
+        header("location: index.php");
+        die();
+    }
     $layananLokasiId = $_POST['layananLokasiId'];
     $jadwal = $_POST['jadwal'];
     $jamMulai = $_POST['jamMulai'];
@@ -18,11 +22,10 @@ if(isset($_POST['buatReservasi'])){
 
     if($query){
         $reservasiId = $connect->insert_id;
-        header("location: pembayaran.php?id=" . $reservasiId);
+        header("location: pembayaran.php?reservasiId=" . $reservasiId);
         die();
     }
     else{
         echo "reservasi gagal";
     }
-}
 ?>

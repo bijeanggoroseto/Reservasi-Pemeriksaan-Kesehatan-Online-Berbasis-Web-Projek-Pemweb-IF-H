@@ -1,7 +1,13 @@
 <?php
-    session_start();
-    include("connect.php");
+    include("header.php");
+
+    if(!isset($_GET['lokasiId'])){
+        header("location: index.php");
+        die();
+    }
+
     $lokasiId = $_GET['id'];
+    
     $dataLokasi = $connect->query("SELECT * FROM lokasi WHERE id = $lokasiId")->fetch_object();
 
     $query = $connect->query("SELECT layanan_lokasi.*, layanan.nama FROM layanan_lokasi JOIN layanan ON layanan_lokasi.layanan_id = layanan.id WHERE layanan_lokasi.lokasi_id = $lokasiId;");
@@ -200,8 +206,6 @@
     </style>
 </head>
 <body>
-    <?php include("header.php") ?>
-
     <div style="display: flex; margin: 20px 0px 20px 20px;">
         <img id="gambarLokasi" src="<?php echo $dataLokasi->gambar ?>">
         <div style="margin-left: 20px;">
