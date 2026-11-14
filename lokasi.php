@@ -1,4 +1,5 @@
-<?php 
+<?php
+    session_start();
     include("connect.php");
     $lokasiId = $_GET['id'];
     $dataLokasi = $connect->query("SELECT * FROM lokasi WHERE id = $lokasiId")->fetch_object();
