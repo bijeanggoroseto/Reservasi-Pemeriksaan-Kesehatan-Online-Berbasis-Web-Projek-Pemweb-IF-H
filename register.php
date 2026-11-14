@@ -30,7 +30,7 @@ if (isset($_POST["register"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Dummy Data</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
