@@ -9,17 +9,7 @@
 
     $penggunaId = $_SESSION["pengguna_id"];
     $reservasiId = $_GET["id"];
-
-    if(isset($_POST["bayar"])){
-        $queryBayar = mysqli_query($connect,"UPDATE reservasi SET status_pembayaran = 1 
-        WHERE id = '$reservasiId' AND pengguna_id = '$penggunaId'") or die(mysqli_error($connect));
-
-        if($queryBayar){
-            header("location: reservasi.php");
-            die();
-        }
-    }
-
+    
     $queryDetail = mysqli_query($connect,
     "SELECT reservasi.nama AS nama_pasien, 
     layanan.nama AS nama_layanan, 
@@ -28,12 +18,29 @@
     JOIN layanan ON layanan_lokasi.layanan_id = layanan.id 
     WHERE reservasi.id = '$reservasiId' 
     AND reservasi.pengguna_id = '$penggunaId'") or die(mysqli_error($connect));
-
+    
     $detail = mysqli_fetch_assoc($queryDetail);
     if(!$detail) {
         header("location: reservasi.php");
         die();
     }
+
+    if(isset($_POST["bayar"])){
+        $jumlah = $detail["harga"];
+        $metode = $_POST["metode"];
+
+        $queryInsertBayar = mysqli_query($connect, "INSERT INTO pembayaran (reservasi_id, jumlah, metode, dibayar_pada) 
+        VALUES ('$reservasiId', '$jumlah', '$metode', NOW()) ") or die(mysqli_error($connect));
+
+        $queryBayar = mysqli_query($connect,"UPDATE reservasi SET status_pembayaran = 1 
+        WHERE id = '$reservasiId' AND pengguna_id = '$penggunaId'") or die(mysqli_error($connect));
+
+        if($queryInsertBayar && $queryBayar){
+            header("location: reservasi.php");
+            die();
+        }
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -41,7 +48,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Dummy Data</title>
     <link rel="stylesheet" href="style.css">
     <style>
         #kotakInput {
@@ -90,6 +97,11 @@
             </p>
         </div>
         <form method="POST">
+            <label for="metode">Metode Pembayaran</label>
+            <select name="metode" id="metode" required>
+                <option value="qris">QRIS</option>
+                <option value="tunai">Tunai</option>
+            </select><br>
             <input type="submit" name="bayar" value="BAYAR">
         </form>
     </div>
