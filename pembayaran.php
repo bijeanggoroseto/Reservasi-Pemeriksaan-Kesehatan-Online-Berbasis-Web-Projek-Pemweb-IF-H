@@ -1,3 +1,41 @@
+<?php
+    session_start();
+    include("connect.php");
+
+    if(!isset($_SESSION["pengguna_id"])){
+        header("location: login.php");
+        die();
+    }
+
+    $penggunaId = $_SESSION["pengguna_id"];
+    $reservasiId = $_GET["id"];
+
+    if(isset($_POST["bayar"])){
+        $queryBayar = mysqli_query($connect,"UPDATE reservasi SET status_pembayaran = 1 
+        WHERE id = '$reservasiId' AND pengguna_id = '$penggunaId'") or die(mysqli_error($connect));
+
+        if($queryBayar){
+            header("location: reservasi.php");
+            die();
+        }
+    }
+
+    $queryDetail = mysqli_query($connect,
+    "SELECT reservasi.nama AS nama_pasien, 
+    layanan.nama AS nama_layanan, 
+    layanan_lokasi.harga FROM reservasi 
+    JOIN layanan_lokasi ON reservasi.layanan_lokasi_id = layanan_lokasi.id 
+    JOIN layanan ON layanan_lokasi.layanan_id = layanan.id 
+    WHERE reservasi.id = '$reservasiId' 
+    AND reservasi.pengguna_id = '$penggunaId'") or die(mysqli_error($connect));
+
+    $detail = mysqli_fetch_assoc($queryDetail);
+    if(!$detail) {
+        header("location: reservasi.php");
+        die();
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,12 +80,17 @@
     <?php include("header.php") ?>
 
     <div id="kotakInput">
-        <h2>Isi Data Pribadi</h2>
+        <h2>Konfirmasi Pembayaran</h2>
         <div style="display: flex;">
-            <p id="nominal">Nominal pembayaran: <br>100.0000</p>
+            <p id="nominal">
+                Pasien: <?= $detail["nama_pasien"]; ?> 
+                (<?= $detail["nama_layanan"]; ?>) <br>
+                Nominal Pembayaran: <br>
+                <strong>Rp <?=number_format($detail["harga"], 0, ",", "."); ?></strong>
+            </p>
         </div>
-        <form action="index.php">
-            <input type="submit">
+        <form method="POST">
+            <input type="submit" name="bayar" value="BAYAR">
         </form>
     </div>
 </body>

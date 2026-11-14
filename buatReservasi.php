@@ -1,4 +1,5 @@
 <?php
+session_start();
 include("connect.php");
 if(isset($_POST['buatReservasi'])){
     $layananLokasiId = $_POST['layananLokasiId'];
@@ -6,7 +7,7 @@ if(isset($_POST['buatReservasi'])){
     $nama = $_POST['nama'];
     $tanggalLahir = $_POST['tanggalLahir'];
     $jenisKelamin = $_POST['jenisKelamin'];
-    $penggunaId = 1;
+    $penggunaId = $_SESSION['pengguna_id'];
 
 
     $query = $connect-> query(
@@ -14,7 +15,9 @@ if(isset($_POST['buatReservasi'])){
         VALUES ($penggunaId, '$nama', '$tanggalLahir', '$jenisKelamin', $layananLokasiId, '$jadwal', 0)");
 
     if($query){
-        header("location: pembayaran.php");
+        $reservasiId = $connect->insert_id;
+        header("location: pembayaran.php?id=" . $reservasiId);
+        die();
     }
     else{
         echo "reservasi gagal";

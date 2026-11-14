@@ -66,3 +66,14 @@ a {
     transition-duration: 0.5s;
     background-color: aquamarine;
 }
+
+.beranda {
+    border: 1px solid;
+    border-radius: 3px;
+}
+
+.beranda:hover {
+    transition: ease-in-out;
+    transition-duration: 0.5s;
+    background-color: aqua;
+}
