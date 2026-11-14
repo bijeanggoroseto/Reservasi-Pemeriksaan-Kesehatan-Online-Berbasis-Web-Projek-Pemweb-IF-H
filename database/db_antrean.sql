@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 13 Nov 2026 pada 19.46
+-- Waktu pembuatan: 14 Nov 2026 pada 17.23
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -24,18 +24,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `hari_tutup`
---
-
-CREATE TABLE `hari_tutup` (
-  `id` bigint(20) NOT NULL,
-  `lokasi_id` bigint(20) NOT NULL,
-  `tanggal` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Struktur dari tabel `jadwal_rutin`
 --
 
@@ -46,6 +34,18 @@ CREATE TABLE `jadwal_rutin` (
   `jam_mulai` time NOT NULL,
   `jam_selesai` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `jadwal_rutin`
+--
+
+INSERT INTO `jadwal_rutin` (`id`, `layanan_lokasi_id`, `hari`, `jam_mulai`, `jam_selesai`) VALUES
+(1, 20, 1, '08:00:00', '17:00:00'),
+(2, 20, 2, '08:00:00', '17:00:00'),
+(3, 20, 3, '08:00:00', '17:00:00'),
+(4, 20, 4, '08:00:00', '17:00:00'),
+(5, 20, 5, '08:30:00', '15:00:00'),
+(6, 20, 6, '08:30:00', '15:00:00');
 
 -- --------------------------------------------------------
 
@@ -157,7 +157,8 @@ CREATE TABLE `pengguna` (
 --
 
 INSERT INTO `pengguna` (`id`, `nama`, `email`, `no_hp`, `password`, `foto_profil`) VALUES
-(1, 'flynn', 'bijeanggoroseto@gmail.com', '081227591049', '123', '');
+(1, 'flynn', 'bijeanggoroseto@gmail.com', '081227591049', '123', ''),
+(3, 'yuvin', 'mydenyoi@gmail.com', '08888666', '666', '');
 
 -- --------------------------------------------------------
 
@@ -184,18 +185,20 @@ CREATE TABLE `reservasi` (
 --
 
 INSERT INTO `reservasi` (`id`, `pengguna_id`, `nama`, `tanggal_lahir`, `jenis_kelamin`, `dibuat_pada`, `layanan_lokasi_id`, `jam_mulai`, `jam_selesai`, `jadwal`, `status_pembayaran`) VALUES
-(5, 1, 'bije anggoro seto', '2026-11-14', 'male', '2026-11-13 18:41:05', 20, '00:00:00', '00:00:00', '2026-11-14', 0);
+(16, 1, 'bije', '2026-11-04', 'laki-laki', '2026-11-14 14:43:42', 20, '08:00:00', '09:00:00', '2026-11-16', 1),
+(19, 1, 'yuvin', '2026-11-04', 'laki-laki', '2026-11-14 14:43:42', 20, '10:00:00', '11:00:00', '2026-11-16', 1),
+(21, 1, 'yuvin', '2026-11-04', 'laki-laki', '2026-11-14 14:43:42', 20, '11:00:00', '12:00:00', '2026-11-16', 1),
+(22, 1, 'yuvin', '2026-11-04', 'laki-laki', '2026-11-14 14:43:42', 20, '16:00:00', '17:00:00', '2026-11-16', 1),
+(23, 1, 'yuvin', '2026-11-04', 'laki-laki', '2026-11-14 14:43:42', 20, '12:00:00', '13:00:00', '2026-11-16', 1),
+(24, 1, 'yuvin', '2026-11-04', 'laki-laki', '2026-11-14 14:43:42', 20, '13:00:00', '14:00:00', '2026-11-16', 1),
+(25, 1, 'yuvin', '2026-11-04', 'laki-laki', '2026-11-14 14:43:42', 20, '14:00:00', '15:00:00', '2026-11-16', 1),
+(26, 1, 'yuvin', '2026-11-04', 'laki-laki', '2026-11-14 14:43:42', 20, '15:00:00', '16:00:00', '2026-11-16', 1),
+(29, 1, 'sdfsdf', '2026-11-03', 'male', '2026-11-14 16:18:00', 20, '08:00:00', '09:00:00', '2026-11-17', 0),
+(30, 1, 'fsdv', '2026-11-19', 'female', '2026-11-14 16:18:31', 20, '16:00:00', '17:00:00', '2026-11-17', 0);
 
 --
 -- Indexes for dumped tables
 --
-
---
--- Indeks untuk tabel `hari_tutup`
---
-ALTER TABLE `hari_tutup`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `lokasi_id` (`lokasi_id`);
 
 --
 -- Indeks untuk tabel `jadwal_rutin`
@@ -250,16 +253,10 @@ ALTER TABLE `reservasi`
 --
 
 --
--- AUTO_INCREMENT untuk tabel `hari_tutup`
---
-ALTER TABLE `hari_tutup`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT untuk tabel `jadwal_rutin`
 --
 ALTER TABLE `jadwal_rutin`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `layanan`
@@ -289,23 +286,17 @@ ALTER TABLE `pembayaran`
 -- AUTO_INCREMENT untuk tabel `pengguna`
 --
 ALTER TABLE `pengguna`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `reservasi`
 --
 ALTER TABLE `reservasi`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
-
---
--- Ketidakleluasaan untuk tabel `hari_tutup`
---
-ALTER TABLE `hari_tutup`
-  ADD CONSTRAINT `hari_tutup_ibfk_1` FOREIGN KEY (`lokasi_id`) REFERENCES `lokasi` (`id`) ON DELETE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `jadwal_rutin`

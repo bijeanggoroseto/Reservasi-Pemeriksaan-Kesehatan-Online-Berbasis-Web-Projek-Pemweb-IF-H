@@ -3,6 +3,8 @@ include("connect.php");
 if(isset($_POST['lokasiLayanan'])){
     $layananLokasiId = $_POST["layananLokasiId"];
     $jadwal = $_POST["jadwal"];
+    $jamMulai = $_POST['jamMulai'];
+    $jamSelesai = $_POST['jamSelesai'];
 }
 else{echo("error");}
 ?>
@@ -66,6 +68,8 @@ else{echo("error");}
 
             <input type="hidden" name="layananLokasiId" value="<?= $layananLokasiId ?>">
             <input type="hidden" name="jadwal" value="<?= $jadwal ?>">
+            <input type="hidden" name="jamMulai" id="inputJamMulai" value="<?= $jamMulai ?>">
+            <input type="hidden" name="jamSelesai" id="inputJamSelesai" value="<?= $jamSelesai ?>">
 
             <input type="submit" name="buatReservasi" value="buatReservasi">
         </form>
