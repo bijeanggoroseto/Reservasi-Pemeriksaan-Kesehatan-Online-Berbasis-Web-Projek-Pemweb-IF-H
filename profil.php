@@ -73,6 +73,7 @@ if (isset($_POST["simpanProfil"])) {
     </form>
 
     <p><a href="index.php" class="beranda">Kembali ke Beranda</a></p>
+    <p><a href="reservasi.php" class="beranda">Reservasi anda</a></p>
 </body>
 
 </html>

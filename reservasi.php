@@ -1,11 +1,5 @@
 <?php
-session_start();
-include("connect.php");
-
-if (!isset($_SESSION["pengguna_id"])) {
-    header("Location: login.php");
-    die();
-}
+include("header.php");
 $penggunaId = $_SESSION["pengguna_id"];
 
 $queryReservasi = mysqli_query($connect, "SELECT
@@ -41,7 +35,6 @@ $queryReservasi = mysqli_query($connect, "SELECT
 </head>
 
 <body>
-    <?php include("header.php"); ?>
     <h2>Reservasi Saya</h2>
 
     <?php if (mysqli_num_rows($queryReservasi) > 0): ?>

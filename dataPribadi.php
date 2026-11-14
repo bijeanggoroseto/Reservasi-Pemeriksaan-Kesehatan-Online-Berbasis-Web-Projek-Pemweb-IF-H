@@ -48,7 +48,6 @@
     </style>
 </head>
 <body>
-    <?php include("header.php") ?>
 
     <div id="kotakInput">
         <h2>Isi Data Pribadi</h2>

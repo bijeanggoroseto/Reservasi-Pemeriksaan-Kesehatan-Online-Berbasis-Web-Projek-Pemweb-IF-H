@@ -1,21 +1,21 @@
 <?php
     include("header.php");
 
-    $penggunaId = $_SESSION["reservasiId"];
-    if(!isset($_GET['lokasiLayanan'])){
+    $penggunaId = $_SESSION["pengguna_id"];
+    if(!isset($_GET['reservasiId'])){
         header("location: index.php");
         die();
     }
 
     $penggunaId = $_SESSION["pengguna_id"];
-    $reservasiId = $_GET["id"];
+    $reservasiId = $_GET["reservasiId"];
 
     if(isset($_POST["bayar"])){
         $queryBayar = mysqli_query($connect,"UPDATE reservasi SET status_pembayaran = 1 
         WHERE id = '$reservasiId' AND pengguna_id = '$penggunaId'") or die(mysqli_error($connect));
 
         if($queryBayar){
-            header("location: reservasi.php");
+            header("location: index.php");
             die();
         }
     }
@@ -31,7 +31,7 @@
     
     $detail = mysqli_fetch_assoc($queryDetail);
     if(!$detail) {
-        header("location: reservasi.php");
+        header("location: index.php");
         die();
     }
 
@@ -46,7 +46,7 @@
         WHERE id = '$reservasiId' AND pengguna_id = '$penggunaId'") or die(mysqli_error($connect));
 
         if($queryInsertBayar && $queryBayar){
-            header("location: reservasi.php");
+            header("location: index.php");
             die();
         }
     }

@@ -6,7 +6,7 @@
         die();
     }
 
-    $lokasiId = $_GET['id'];
+    $lokasiId = $_GET['lokasiId'];
     
     $dataLokasi = $connect->query("SELECT * FROM lokasi WHERE id = $lokasiId")->fetch_object();
 

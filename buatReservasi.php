@@ -2,7 +2,7 @@
     session_start();
     include("connect.php");
 
-    if(!isset($_POST['lokasiLayanan'])){
+    if(!isset($_POST['buatReservasi'])){
         header("location: index.php");
         die();
     }
@@ -23,7 +23,6 @@
     if($query){
         $reservasiId = $connect->insert_id;
         header("location: pembayaran.php?reservasiId=" . $reservasiId);
-        die();
     }
     else{
         echo "reservasi gagal";
