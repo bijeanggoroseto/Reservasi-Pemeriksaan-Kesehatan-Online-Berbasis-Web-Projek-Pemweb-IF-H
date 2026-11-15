@@ -1,6 +1,6 @@
 <?php
-    session_start();
-    include("connect.php");
+    include("tambahan/auth.php");
+    include("tambahan/connect.php");
 
     if(!isset($_POST['buatReservasi'])){
         header("location: index.php");

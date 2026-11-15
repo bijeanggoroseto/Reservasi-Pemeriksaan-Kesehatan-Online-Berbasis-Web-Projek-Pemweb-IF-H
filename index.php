@@ -1,5 +1,6 @@
 <?php 
-    include("header.php");
+    include("tambahan/auth.php");
+    include("tambahan/connect.php");
     $query = $connect->query("SELECT * FROM lokasi");
 ?>
 
@@ -11,10 +12,6 @@
     <title>Antrean online</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        #kolomPencarian {
-            margin: 20px 0px 10px 20px;
-        }
-
         .gambarLokasi {
             margin-left: 20px;
             width: 200px;
@@ -23,8 +20,7 @@
     </style>
 </head>
 <body>
-
-    <input id="kolomPencarian" type="text" placeholder="search location">
+    <?php include("tambahan/header.php"); ?>
 
     <div style="display: grid;">
 

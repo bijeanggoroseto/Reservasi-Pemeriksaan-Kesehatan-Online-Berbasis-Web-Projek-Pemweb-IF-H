@@ -1,6 +1,12 @@
 <?php
 session_start();
-include("connect.php");
+include("tambahan/connect.php");
+if(isset($_SESSION["pengguna_id"])){
+        header("location: index.php");
+        die();
+}
+
+
 if (isset($_POST["register"])) {
     $nama = $_POST["nama"];
     $email = $_POST["email"];
@@ -30,7 +36,7 @@ if (isset($_POST["register"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dummy Data</title>
+    <title>register</title>
     <link rel="stylesheet" href="style.css">
 </head>
 

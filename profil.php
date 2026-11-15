@@ -1,5 +1,6 @@
 <?php
-include("header.php");
+include("tambahan/auth.php");
+include("tambahan/connect.php");
 
 $penggunaId = $_SESSION["pengguna_id"];
 
@@ -38,42 +39,23 @@ if (isset($_POST["simpanProfil"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dummy Data</title>
+    <title>profil</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <h2>Edit Profil</h2>
+    <?php include("tambahan/header.php"); ?>
     <?php if (isset($pesan)): {
         echo $pesan;
     } ?>
     <?php endif; ?>
-    <form method="post">
-        <div>
-            <label>Nama</label> <br>
-            <input type="text" name="nama" value="<?= $user['nama']; ?>" required>
-        </div>
-        <br>
-        <div>
-            <label>Email</label> <br>
-            <input type="email" name="email" value="<?= $user['email']; ?>" required>
-        </div>
-        <br>
-        <div>
-            <label>No. Hp</label> <br>
-            <input type="text" name="no_hp" value="<?= $user['no_hp']; ?>" required>
-        </div>
-        <br>
-        <div>
-            <label>Password</label> <br>
-            <input type="text" name="password" value="<?= $user['password']; ?>" required>
-        </div>
-        <br>
-        <button type="submit" name="simpanProfil">Simpan Perubahan</button>
-    </form>
-
+    <p>Nama: <?= $user['nama']; ?></p>
+    <p>Email: <?= $user['email']; ?></p>
+    <p>No HP: <?= $user['no_hp']; ?></p>
     <p><a href="index.php" class="beranda">Kembali ke Beranda</a></p>
     <p><a href="reservasi.php" class="beranda">Reservasi anda</a></p>
+    <p><a href="editProfil.php" class="beranda">Edit Profil</a></p>
+    <p><a href="logout.php" class="beranda">Logout</a></p>
 </body>
 
 </html>

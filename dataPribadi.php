@@ -1,5 +1,6 @@
 <?php
-    include("header.php");
+    include("tambahan/auth.php");
+    include("tambahan/connect.php");
 
     if(!isset($_POST['lokasiLayanan'])){
         header("location: index.php");
@@ -48,7 +49,7 @@
     </style>
 </head>
 <body>
-
+    <?php include("tambahan/header.php"); ?>
     <div id="kotakInput">
         <h2>Isi Data Pribadi</h2>
         <form action="buatReservasi.php" method="POST">

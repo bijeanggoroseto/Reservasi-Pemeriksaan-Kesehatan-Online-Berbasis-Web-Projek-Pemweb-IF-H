@@ -1,44 +1,44 @@
 <?php
-    include("header.php");
+include("tambahan/auth.php");
+include("tambahan/connect.php");
+if(!isset($_GET['lokasiId'])){
+    header("location: index.php");
+    die();
+}
+$lokasiId = $_GET['lokasiId'];
 
-    if(!isset($_GET['lokasiId'])){
-        header("location: index.php");
-        die();
-    }
+$dataLokasi = $connect->query("SELECT * FROM lokasi WHERE id = $lokasiId")->fetch_object();
 
-    $lokasiId = $_GET['lokasiId'];
-    
-    $dataLokasi = $connect->query("SELECT * FROM lokasi WHERE id = $lokasiId")->fetch_object();
+$query = $connect->query("SELECT layanan_lokasi.*, layanan.nama FROM layanan_lokasi JOIN layanan ON layanan_lokasi.layanan_id = layanan.id WHERE layanan_lokasi.lokasi_id = $lokasiId;");
+$dataLayananLokasi = [];
+$dataJadwalRutin = [];
+$dataReservasi = [];
 
-    $query = $connect->query("SELECT layanan_lokasi.*, layanan.nama FROM layanan_lokasi JOIN layanan ON layanan_lokasi.layanan_id = layanan.id WHERE layanan_lokasi.lokasi_id = $lokasiId;");
-    $dataLayananLokasi = [];
-    $dataJadwalRutin = [];
-    $dataReservasi = [];
+$i = 0;
+while ($data = $query->fetch_object()) {
+    $dataLayananLokasi[$i++] = $data;
+}
 
-    $i = 0;
-    while ($data = $query->fetch_object()) {
-        $dataLayananLokasi[$i++] = $data;
-    }
-
-    $query = $connect->query("SELECT layanan_lokasi_id, hari, jam_mulai, jam_selesai FROM jadwal_rutin WHERE layanan_lokasi_id IN (SELECT id FROM layanan_lokasi WHERE lokasi_id = $lokasiId)");
-    while ($data = $query->fetch_object()) {
-        $dataJadwalRutin[] = $data;
-    }
-    
-    $query = $connect->query("SELECT layanan_lokasi_id, jadwal, jam_mulai FROM reservasi WHERE layanan_lokasi_id IN (SELECT id FROM layanan_lokasi WHERE lokasi_id = $lokasiId)");
-    while ($data = $query->fetch_object()) {
-        $dataReservasi[] = $data;
-    }
+$query = $connect->query("SELECT layanan_lokasi_id, hari, jam_mulai, jam_selesai FROM jadwal_rutin WHERE layanan_lokasi_id IN (SELECT id FROM layanan_lokasi WHERE lokasi_id = $lokasiId)");
+while ($data = $query->fetch_object()) { 
+$dataJadwalRutin[] = $data;
+}
+        
+$query = $connect->query("SELECT layanan_lokasi_id, jadwal, jam_mulai FROM reservasi WHERE layanan_lokasi_id IN (SELECT id FROM layanan_lokasi WHERE lokasi_id = $lokasiId)");
+while ($data = $query->fetch_object()) {
+    $dataReservasi[] = $data;
+}
+        
 ?>
 
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dummy Data</title>
-    <link rel="stylesheet" href="style.css">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Lokasi</title>
+        <link rel="stylesheet" href="style.css">
     <style>
         #gambarLokasi {
             width: 300px;
@@ -206,6 +206,8 @@
     </style>
 </head>
 <body>
+    <?php include("tambahan/header.php"); ?>
+
     <div style="display: flex; margin: 20px 0px 20px 20px;">
         <img id="gambarLokasi" src="<?php echo $dataLokasi->gambar ?>">
         <div style="margin-left: 20px;">

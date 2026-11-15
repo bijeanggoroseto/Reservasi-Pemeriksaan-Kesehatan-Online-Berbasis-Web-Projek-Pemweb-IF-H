@@ -1,5 +1,6 @@
 <?php
-    include("header.php");
+    include("tambahan/auth.php");
+    include("tambahan/connect.php");
 
     $penggunaId = $_SESSION["pengguna_id"];
     if(!isset($_GET['reservasiId'])){
@@ -10,18 +11,9 @@
     $penggunaId = $_SESSION["pengguna_id"];
     $reservasiId = $_GET["reservasiId"];
 
-    if(isset($_POST["bayar"])){
-        $queryBayar = mysqli_query($connect,"UPDATE reservasi SET status_pembayaran = 1 
-        WHERE id = '$reservasiId' AND pengguna_id = '$penggunaId'") or die(mysqli_error($connect));
-
-        if($queryBayar){
-            header("location: index.php");
-            die();
-        }
-    }
-
     $queryDetail = mysqli_query($connect,
     "SELECT reservasi.nama AS nama_pasien, 
+    reservasi.status_pembayaran,
     layanan.nama AS nama_layanan, 
     layanan_lokasi.harga FROM reservasi 
     JOIN layanan_lokasi ON reservasi.layanan_lokasi_id = layanan_lokasi.id 
@@ -30,7 +22,7 @@
     AND reservasi.pengguna_id = '$penggunaId'") or die(mysqli_error($connect));
     
     $detail = mysqli_fetch_assoc($queryDetail);
-    if(!$detail) {
+    if(!$detail || $detail["status_pembayaran"] == 1) {
         header("location: index.php");
         die();
     }
@@ -58,7 +50,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dummy Data</title>
+    <title>pembayaran</title>
     <link rel="stylesheet" href="style.css">
     <style>
         #kotakInput {
@@ -94,6 +86,8 @@
     </style>
 </head>
 <body>
+    <?php include("tambahan/header.php"); ?>
+
     <div id="kotakInput">
         <h2>Konfirmasi Pembayaran</h2>
         <div style="display: flex;">
