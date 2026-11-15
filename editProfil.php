@@ -6,13 +6,49 @@ $penggunaId = $_SESSION["pengguna_id"];
 
 $queryUser = mysqli_query($connect, "SELECT * FROM pengguna WHERE id = '$penggunaId'") or die(mysqli_error($connect));
 $user = mysqli_fetch_assoc($queryUser);
+$fotoPreview = "gambar/foto_profil/" . $user["foto_profil"];
+$pathFotoBaru = "";
 
 if (isset($_POST["simpanProfil"])) {
+    $hapusFoto = $_POST["hapusFoto"];
     $nama = $_POST["nama"];
     $email_baru = $_POST["email_baru"];
     $email_lama = $_POST["email_lama"];
     $no_hp = $_POST["no_hp"];
     $password = $_POST["password"];
+
+    if(!$_FILES["foto"]["error"] == UPLOAD_ERR_NO_FILE || $hapusFoto == "hapus"){
+        if($hapusFoto == "hapus"){
+            $pathFotoBaru = "default.png";
+        }
+        else{
+            $foto = $_FILES["foto"];
+            if ($foto["size"] > 2 * 1024 * 1024) {
+               $error = "Ukuran foto terlalu besar!";
+            }
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            $mime = finfo_file($finfo, $foto["tmp_name"]);
+            $tipeDiizinkan = [
+                "image/jpeg" => "jpg",
+                "image/png" => "png",
+                "image/webp" => "webp"
+            ];
+            if (!isset($tipeDiizinkan[$mime])) {
+                $error = "Format foto tidak diizinkan!";
+            }
+            $fotoBaru = $penggunaId . "." . $tipeDiizinkan[$mime];
+            $folder = __DIR__ . "/gambar/foto_profil/";
+        
+            if (move_uploaded_file($foto["tmp_name"], $folder . $fotoBaru)) {
+                $pathFotoBaru = $fotoBaru;
+            }
+        }
+
+        $fotoLama = __DIR__ . "/gambar/foto_profil/" . $user["foto_profil"];
+        if (file_exists($fotoLama) && $user["foto_profil"] != "default.png") {
+            unlink($fotoLama);
+        }
+    }
 
     if($email_baru != $email_lama){
         $cek = mysqli_query($connect, "SELECT id FROM pengguna WHERE email = '$email_baru'") or die(mysqli_error($connect));
@@ -21,6 +57,7 @@ if (isset($_POST["simpanProfil"])) {
             $error = "Email sudah terdaftar!";
         }
     }
+
     if(!isset($error)){
         $queryUpdate = mysqli_query(
             $connect,
@@ -28,6 +65,7 @@ if (isset($_POST["simpanProfil"])) {
             nama = '$nama',
             email = '$email_baru',
             no_hp = '$no_hp',
+            foto_profil = '$pathFotoBaru',
             password = '$password'
             WHERE id = '$penggunaId'"
         ) or die(mysqli_error($connect));
@@ -52,7 +90,7 @@ if (isset($_POST["simpanProfil"])) {
             echo $error;
         }
     ?>
-    <form method="post">
+    <form method="POST" enctype="multipart/form-data">
         <div>
             <label>Nama</label> <br>
             <input type="text" name="nama" value="<?= $user['nama']; ?>" required>
@@ -73,9 +111,52 @@ if (isset($_POST["simpanProfil"])) {
             <input type="text" name="password" value="<?= $user['password']; ?>" required>
         </div>
         <br>
+
+        <input type="file" name="foto" id="foto" accept="image/*">
+
+        <img src="<?= $fotoPreview ?>" id="preview" width="200">
+
+        <button type="button" id="batal" style="display: none;">Batal</button>
+
+        <button type="button" id="hapusFoto" value="">Hapus Foto</button>
+        <input type="hidden" name="hapusFoto" id="inputHapus">
+
         <input type="hidden" value="<?= $user['email']; ?>" name="email_lama">
         <button type="submit" name="simpanProfil">Simpan Perubahan</button>
     </form>
+
     <p><a href="profil.php" class="beranda">Kembali</a></p> 
+
+<script>
+    const fotoPreview = <?= json_encode($fotoPreview) ?>;
+    const inputFoto = document.getElementById("foto");
+    const preview = document.getElementById("preview");
+    const batal = document.getElementById("batal");
+    const hapusFoto = document.getElementById("hapusFoto");
+    const inputHapus = document.getElementById("inputHapus");
+
+    inputFoto.addEventListener("change", function() {
+        const file = this.files[0];
+
+        if (file) {
+            preview.src = URL.createObjectURL(file);
+            batal.style.display = "block"
+        }
+    });
+
+    batal.addEventListener("click", function() {
+        inputFoto.value = "";
+        inputHapus.value = "";
+        preview.src = fotoPreview;
+        batal.style.display = "none";
+    });
+
+    hapusFoto.addEventListener("click", function() {
+        inputFoto.value = "";
+        inputHapus.value = "hapus";
+        preview.src = "gambar/foto_profil/default.png";
+        batal.style.display = "none";
+    });
+    </script>
 </body>
 </html>

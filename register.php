@@ -18,7 +18,7 @@ if (isset($_POST["register"])) {
     if (mysqli_num_rows($cek) > 0) {
         $error = "Email sudah terdaftar!";
     } else {
-        $query = mysqli_query($connect, "INSERT INTO pengguna (nama, email, no_hp, password) VALUES ('$nama', '$email', '$no_hp', '$password')");
+        $query = mysqli_query($connect, "INSERT INTO pengguna (nama, email, no_hp, password, foto_profil) VALUES ('$nama', '$email', '$no_hp', '$password', 'default.png')");
 
         if ($query) {
             header("Location: login.php");

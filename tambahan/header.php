@@ -6,14 +6,12 @@
     $queryHeader = mysqli_query($connect, "SELECT * FROM pengguna WHERE id = '$idHeader'") or die(mysqli_error($connect));
     if($userHeader = mysqli_fetch_assoc($queryHeader)){
         $namaHeader = $userHeader["nama"];
-        if(!empty($userHeader["foto_profil"])){
-                $fotoHeader = "../gambar/foto_profil/" . $userHeader["foto_profil"];
-        }
+        $fotoHeader = "gambar/foto_profil/" . $userHeader["foto_profil"];
     }
 ?>
 
 <head>
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <header>
     <a href="index.php"><h1 class="judulUtamaHeader">Reservasi online</h1></a>
