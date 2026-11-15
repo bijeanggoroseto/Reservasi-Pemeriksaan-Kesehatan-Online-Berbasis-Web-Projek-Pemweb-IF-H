@@ -3,6 +3,11 @@ include("tambahan/auth.php");
 include("tambahan/connect.php");
 $penggunaId = $_SESSION["pengguna_id"];
 
+if(isset($_GET["batalReservasi"])){
+    $hapus_id = $_GET["reservasiId"];
+    $queryHapus = mysqli_query($connect, "DELETE FROM reservasi WHERE reservasi.id = $hapus_id");
+}
+
 $queryReservasi = mysqli_query($connect, "SELECT
         reservasi.id,
         reservasi.nama AS nama_pasien,
@@ -28,53 +33,65 @@ $queryReservasi = mysqli_query($connect, "SELECT
     ") or die(mysqli_error($connect));
 ?>
 
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>reservasi</title>
+    <title>Reservasi Saya</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<style>
-    #semuaReservasi {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-    }
-</style>
 
 <body>
     <?php include("tambahan/header.php") ?>
-    <h2>Reservasi Saya</h2>
+
+    <h2 class="judul-halaman">Reservasi Saya</h2>
 
     <?php if (mysqli_num_rows($queryReservasi) > 0): ?>
         <div id="semuaReservasi">
-            <?php while ($data = mysqli_fetch_array($queryReservasi)): ?>
+            <?php while ($data = mysqli_fetch_array($queryReservasi)) { 
+                if($data["jadwal"] >= date("Y-m-d")) { ?>
             <div class="detailReservasi">
-                <p>Nama: <?= $data["nama_pasien"]; ?></p>
-                <p>Lokasi: <?= $data["nama_lokasi"]; ?></p>
-                <p>Layanan: <?= $data["nama_layanan"]; ?></p>
-                <p>Jadwal: <?= $data["jadwal"]; ?></p>
-                <p>Harga: Rp <?= number_format($data["harga"], 0, ",", "."); ?></p>
-                <p>Status pembayaran: <?= $data["status_pembayaran"] == 1 ? "Lunas" : "Belum Dibayar"; ?></p>
+                <p class="baris-data"><b>Nama</b> <span><?= $data["nama_pasien"]; ?></span></p>
+                <p class="baris-data"><b>Lokasi</b> <span><?= $data["nama_lokasi"]; ?></span></p>
+                <p class="baris-data"><b>Layanan</b> <span><?= $data["nama_layanan"]; ?></span></p>
+                <p class="baris-data"><b>Jadwal</b> <span><?= date("d-m-Y", strtotime($data["jadwal"])); ?></span></p>
+                <p class="baris-data"><b>Jam</b> <span><?= substr($data["jam_mulai"], 0, 5); ?> - <?= substr($data["jam_selesai"], 0, 5); ?></span></p>
+                <p class="baris-data"><b>Harga</b> <span>Rp <?= number_format($data["harga"], 0, ",", "."); ?></span></p>
+                <p class="baris-data">
+                    <b>Status</b>
+                    <span class="status <?= $data["status_pembayaran"] == 1 ? "lunas" : "belum"; ?>">
+                        <?= $data["status_pembayaran"] == 1 ? "Lunas" : "Belum Dibayar"; ?>
+                    </span>
+                </p>
+
                 <?php if(!$data["status_pembayaran"]){ ?>
-                <form action="pembayaran.php" method="GET">
-                    <input type="hidden" value="<?=  $data["id"] ?>" name="reservasiId">
-                    <input type="submit" name="bayarReservasi" value="Bayar">
-                </form>
+                <div class="tombol-baris">
+                    <form action="pembayaran.php" method="GET">
+                        <input type="hidden" value="<?=  $data["id"] ?>" name="reservasiId">
+                        <input type="submit" name="bayarReservasi" value="Bayar" class="tombol">
+                    </form>
+                    <form method="GET">
+                        <input type="hidden" value="<?=  $data["id"] ?>" name="reservasiId">
+                        <input type="submit" name="batalReservasi" value="Batal" class="tombol tombol-merah">
+                    </form>
+                </div>
                 <?php } else { ?>
-                <p>Metode: <?= $data["metode"]; ?></p>
-                <p>Waktu di bayar: <?= $data["dibayar_pada"]; ?></p>
+                <p class="baris-data"><b>Metode</b> <span><?= $data["metode"] ?? "-"; ?></span></p>
+                <p class="baris-data"><b>Dibayar</b> <span><?= $data["dibayar_pada"] ?? "-"; ?></span></p>
                 <?php }?>
             </div>
-            <?php endwhile; ?>
+            <?php }} ?>
         </div>
     <?php else: ?>
-        <p>Belum ada reservasi yang dibuat!</p>
+        <p class="kosong">Belum ada reservasi yang dibuat!</p>
     <?php endif; ?>
-    <p><a href="profil.php" class="beranda">Kembali</a></p>
+
+    <div class="aksi-halaman">
+        <a href="profil.php" class="beranda">Kembali</a>
+    </div>
 </body>
 
 </html>

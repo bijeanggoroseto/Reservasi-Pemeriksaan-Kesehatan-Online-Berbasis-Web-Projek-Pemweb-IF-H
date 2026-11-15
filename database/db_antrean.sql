@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 14 Nov 2026 pada 17.23
+-- Waktu pembuatan: 15 Nov 2026 pada 22.34
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -157,8 +157,8 @@ CREATE TABLE `pengguna` (
 --
 
 INSERT INTO `pengguna` (`id`, `nama`, `email`, `no_hp`, `password`, `foto_profil`) VALUES
-(1, 'flynn', 'bijeanggoroseto@gmail.com', '081227591049', '123', ''),
-(3, 'yuvin', 'mydenyoi@gmail.com', '08888666', '666', '');
+(3, 'yuvin', 'mydenyoi@gmail.com', '08888666', '666', '3.webp'),
+(4, 'bije anggoro seto', 'bijeanggoroseto@gmail.com', '08888666', '123', '4.webp');
 
 -- --------------------------------------------------------
 
@@ -179,22 +179,6 @@ CREATE TABLE `reservasi` (
   `jadwal` date NOT NULL,
   `status_pembayaran` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data untuk tabel `reservasi`
---
-
-INSERT INTO `reservasi` (`id`, `pengguna_id`, `nama`, `tanggal_lahir`, `jenis_kelamin`, `dibuat_pada`, `layanan_lokasi_id`, `jam_mulai`, `jam_selesai`, `jadwal`, `status_pembayaran`) VALUES
-(16, 1, 'bije', '2026-11-04', 'laki-laki', '2026-11-14 14:43:42', 20, '08:00:00', '09:00:00', '2026-11-16', 1),
-(19, 1, 'yuvin', '2026-11-04', 'laki-laki', '2026-11-14 14:43:42', 20, '10:00:00', '11:00:00', '2026-11-16', 1),
-(21, 1, 'yuvin', '2026-11-04', 'laki-laki', '2026-11-14 14:43:42', 20, '11:00:00', '12:00:00', '2026-11-16', 1),
-(22, 1, 'yuvin', '2026-11-04', 'laki-laki', '2026-11-14 14:43:42', 20, '16:00:00', '17:00:00', '2026-11-16', 1),
-(23, 1, 'yuvin', '2026-11-04', 'laki-laki', '2026-11-14 14:43:42', 20, '12:00:00', '13:00:00', '2026-11-16', 1),
-(24, 1, 'yuvin', '2026-11-04', 'laki-laki', '2026-11-14 14:43:42', 20, '13:00:00', '14:00:00', '2026-11-16', 1),
-(25, 1, 'yuvin', '2026-11-04', 'laki-laki', '2026-11-14 14:43:42', 20, '14:00:00', '15:00:00', '2026-11-16', 1),
-(26, 1, 'yuvin', '2026-11-04', 'laki-laki', '2026-11-14 14:43:42', 20, '15:00:00', '16:00:00', '2026-11-16', 1),
-(29, 1, 'sdfsdf', '2026-11-03', 'male', '2026-11-14 16:18:00', 20, '08:00:00', '09:00:00', '2026-11-17', 0),
-(30, 1, 'fsdv', '2026-11-19', 'female', '2026-11-14 16:18:31', 20, '16:00:00', '17:00:00', '2026-11-17', 0);
 
 --
 -- Indexes for dumped tables
@@ -280,19 +264,19 @@ ALTER TABLE `lokasi`
 -- AUTO_INCREMENT untuk tabel `pembayaran`
 --
 ALTER TABLE `pembayaran`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `pengguna`
 --
 ALTER TABLE `pengguna`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `reservasi`
 --
 ALTER TABLE `reservasi`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
