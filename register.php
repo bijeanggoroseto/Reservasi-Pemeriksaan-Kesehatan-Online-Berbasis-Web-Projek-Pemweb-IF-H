@@ -31,42 +31,47 @@ if (isset($_POST["register"])) {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>register</title>
+    <title>Daftar</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <?php 
-        if (isset($error)): {
-            echo $error;
-        } ?>
-    <?php 
-        endif;
-    ?>
-    <h1>Register</h1>
-    <form method="POST">
-        nama :
-        <input type="text" name="nama" placeholder="input nama">
-        <br>
-        email :
-        <input type="email" name="email" placeholder="input email">
-        <br>
-        no_hp :
-        <input type="text" name="no_hp" placeholder="input no_hp">
-        <br>
-        password :
-        <input type="password" name="password" placeholder="input password">
-        <br>
-        <input type="submit" value="register" name="register">
-    </form>
-    <p>
-        Sign In -> <a href="login.php" class="login">Login</a>
-    </p>
+    <div class="kartu">
+        <h1 class="judul-kartu">Daftar Akun</h1>
+
+        <?php if (isset($error)): ?>
+            <p class="error"><?= $error; ?></p>
+        <?php endif; ?>
+
+        <form method="POST">
+            <div class="kolom">
+                <label for="nama">Nama</label>
+                <input class="isian" id="nama" type="text" name="nama" placeholder="Masukkan nama" required>
+            </div>
+            <div class="kolom">
+                <label for="email">Email</label>
+                <input class="isian" id="email" type="email" name="email" placeholder="Masukkan email" required>
+            </div>
+            <div class="kolom">
+                <label for="no_hp">No. HP</label>
+                <input class="isian" id="no_hp" type="tel" name="no_hp" placeholder="Masukkan nomor HP" required>
+            </div>
+            <div class="kolom">
+                <label for="password">Password</label>
+                <input class="isian" id="password" type="password" name="password" placeholder="Masukkan password" required>
+            </div>
+            <input class="tombol tombol-penuh" type="submit" value="Daftar" name="register">
+        </form>
+
+        <p class="teks-bawah">
+            Sudah punya akun? <a href="login.php" class="login">Masuk</a>
+        </p>
+    </div>
 </body>
 
 </html>

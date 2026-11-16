@@ -14,9 +14,8 @@ $dataLayananLokasi = [];
 $dataJadwalRutin = [];
 $dataReservasi = [];
 
-$i = 0;
 while ($data = $query->fetch_object()) {
-    $dataLayananLokasi[$i++] = $data;
+    $dataLayananLokasi[] = $data;
 }
 
 $query = $connect->query("SELECT layanan_lokasi_id, hari, jam_mulai, jam_selesai FROM jadwal_rutin WHERE layanan_lokasi_id IN (SELECT id FROM layanan_lokasi WHERE lokasi_id = $lokasiId)");
@@ -40,149 +39,154 @@ while ($data = $query->fetch_object()) {
         <title>Lokasi</title>
         <link rel="stylesheet" href="style.css">
     <style>
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        #container {
+            display: flex;
+            gap: 24px;
+            margin: 0px 0px 20px 0px;
+            padding: 20px;
+            background-color: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: 20px;
+        }
+
         #gambarLokasi {
-            width: 300px;
-            height: 300px;
+            flex-shrink: 0;
+            width: 260px;
+            height: 260px;
+            object-fit: cover;
+            border: 3px solid var(--border);
+            border-radius: 16px;
         }
 
-        #namaLokasi {
-            font-size: 40px;
+        #container-2 {
+            display: block;
             margin: 0px;
-            align-self: center;
         }
 
-        #inputJadwal {
-            margin: 20px 0px;
-            padding: 10px;
-            width: 200px;
-            border-radius: 5px;
-            border: 1px solid gray;
-        }
-        
-        #submit {
-            width: 100px;
+        #nama-lokasi {
+            margin: 0px 0px 6px 0px;
+            font-size: 32px;
+            font-family: 'Poppins', sans-serif;
+            color: var(--primary-dark);
         }
 
-        p {
-            font-size: 20px;
+        #alamat {
+            margin: 0px 0px 10px 0px;
+            font-size: 17px;
+            font-family: 'Poppins', sans-serif;
+            color: var(--secondary-dark);
+            font-weight: bold;
+        }
+
+        #teks-detail {
+            margin: 0px;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+        }
+
+        #input-layanan-dan-jadwal {
+            display: grid;
+            gap: 6px;
+            padding: 20px 25px;
+            background-color: white;
+            border: 2px solid var(--border);
+            border-radius: 20px;
         }
 
         label {
-            font-size: 20px;
+            font-size: 18px;
+            font-family: 'Poppins', sans-serif;
+            color: var(--primary-dark);
+            font-weight: bold;
         }
 
-        select {
-            margin: 20px 0px;
-            margin: 20px 0px;
+        select,
+        #open-kalender {
+            width: 100%;
+            max-width: 340px;
+            box-sizing: border-box;
+            margin: 4px 0px 10px 0px;
             padding: 10px;
-            width: 200px;
-            border-radius: 5px;
-            border: 1px solid gray;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background-color: white;
+            color: var(--text);
+            font: inherit;
+            text-align: left;
             cursor: pointer;
         }
 
-        .availableDay {
-            width: 50px;
-            height: 50px;
-            border: 1px solid black;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        #open-kalender:hover,
+        select:hover {
+            background-color: var(--primary-light);
+        }
+
+        #durasi-harga p {
+            display: inline-block;
+            margin: 0px 8px 10px 0px;
+            padding: 4px 12px;
+            background-color: var(--primary-light);
+            border: 1px solid var(--primary);
+            border-radius: 20px;
+            color: var(--primary-dark);
+        }
+
+        #displayTanggalTerpilih {
+            margin: 4px 0px 10px 0px;
+            padding: 10px 14px;
+            background-color: var(--primary-light);
+            border-left: 4px solid var(--primary);
+            border-radius: 8px;
+            color: var(--primary-dark);
+            font-weight: bold;
+        }
+
+        #submit {
+            width: 100%;
+            max-width: 340px;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 8px;
+            background-color: var(--primary);
             color: white;
-            background-color: rgb(1, 170, 43);
-        }
-
-        .unavailableDay {
-            width: 50px;
-            height: 50px;
-            border: 1px solid black;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: black;
-            background-color: gray;
-        }
-
-        .offDay{
-            width: 50px;
-            height: 50px;
-            border: 1px solid black;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            background-color: rgb(148, 0, 0);
-        }
-
-        .penuh {
-            width: 50px;
-            height: 50px;
-            border: 1px solid black;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            background-color: rgb(1, 75, 20);
-        }
-
-        jadwal {
-            padding: 20px;
-        }
-        
-        #daftarSlot {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-        }
-        
-        .slot {
-            padding: 10px;
-            border: 1px solid white;
-            border-radius: 6px;
-            background-color: white;
-            color: rgb(1, 120, 30);
             font: inherit;
             cursor: pointer;
         }
-        
-        .slotPenuh {
-            background-color: rgb(1, 75, 20);
-            border-color: rgb(1, 75, 20);
-            color: rgb(150, 190, 160);
-            cursor: not-allowed;
+
+        #submit:hover {
+            background-color: var(--primary-dark);
         }
-        
-        .slotDipilih {
-            background-color: #ffd54a;
-            border-color: #ffd54a;
-            color: black;
-        }
-        
 
         #kalenderDialog {
-            border: none;
-            border-radius: 12px;
+            width: fit-content;
+            max-width: 94vw;
             padding: 0;
+            border: none;
+            border-radius: 16px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
         }
 
         #kalenderDialog::backdrop {
             background: rgba(0, 0, 0, 0.5);
         }
 
-        .jadwal {
-            flex: 1 1 200px;
-            min-width: 350px;
-            min-height: 80px;
-            background-color: rgb(1, 170, 43);
-            border-color: rgb(1, 170, 43);
-            color: white;
+        .dlg-isi {
+            display: flex;
         }
 
         .kalenderKonten {
+            flex: none;
+            width: 380px;
             padding: 20px;
-            gap: 20px;
-            flex-wrap: wrap
+            box-sizing: border-box;
         }
 
         .kalenderHeader {
@@ -195,72 +199,276 @@ while ($data = $query->fetch_object()) {
 
         .kalenderHeader h2 {
             margin: 0;
-            font-size: 1.3rem;
+            font-size: 22px;
+            font-family: 'Poppins', sans-serif;
+            color: var(--primary-dark);
+        }
+
+        .kalenderHeader button,
+        .kalenderNav button {
+            padding: 6px 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .kalenderHeader button:hover,
+        .kalenderNav button:hover {
+            background-color: var(--primary);
+            color: white;
         }
 
         .kalenderNav {
             display: flex;
             gap: 6px;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
+        }
+
+        .nama-hari,
+        #dayColl > div {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 4px;
+        }
+
+        .nama-hari span {
+            flex: 1;
+            text-align: center;
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--secondary-dark);
+        }
+
+        .available-day,
+        .unavailable-day,
+        .off-day,
+        .penuh {
+            flex: 1;
+            min-width: 0;
+            aspect-ratio: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid transparent;
+            border-radius: 10px;
+            font: inherit;
+        }
+
+        .available-day {
+            background-color: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary-dark);
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .available-day:hover {
+            background-color: var(--secondary-light);
+        }
+
+        .penuh {
+            background-color: #dcdcdc;
+            color: #666666;
+            text-decoration: line-through;
+            cursor: pointer;
+        }
+
+        .off-day {
+            background-color: #fdecea;
+            color: #b3261e;
+        }
+
+        .unavailable-day {
+            background-color: transparent;
+            color: #b5b5b5;
+        }
+
+        #dayColl button.dipilih {
+            background-color: var(--primary);
+            border-color: var(--primary-dark);
+            color: white;
+        }
+
+        .legenda {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin: 12px 0px 16px 0px;
+            font-size: 13px;
+        }
+
+        .legenda span::before {
+            content: "";
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            margin-right: 6px;
+            border-radius: 4px;
+            vertical-align: -1px;
+        }
+
+        .legenda .l-tersedia::before { background-color: var(--primary-light); border: 1px solid var(--primary); }
+        .legenda .l-penuh::before { background-color: #dcdcdc; }
+        .legenda .l-libur::before { background-color: #fdecea; border: 1px solid #b3261e; }
+
+        #pilihTanggal {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 8px;
+            background-color: var(--primary);
+            color: white;
+            font: inherit;
+            cursor: pointer;
+        }
+
+        #pilihTanggal:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .jadwal {
+            flex: none;
+            width: 300px;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: var(--primary-dark);
+            color: white;
+        }
+
+        #greenBoxTanggal {
+            min-height: 28px;
+            margin: 0px 0px 14px 0px;
+            font-size: 20px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        #daftarSlot {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            grid-auto-rows: 44px;
+            align-content: start;
+            gap: 8px;
+            max-height: 320px;
+            overflow-y: auto;
+        }
+
+        .slot {
+            box-sizing: border-box;
+            width: 100%;
+            height: 100%;
+            padding: 0px 6px;
+            white-space: nowrap;
+            border: 1px solid white;
+            border-radius: 8px;
+            background-color: white;
+            color: var(--primary-dark);
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .slot:hover {
+            background-color: var(--secondary-light);
+        }
+
+        .slotPenuh,
+        .slotPenuh:hover {
+            background-color: transparent;
+            border-color: var(--secondary-dark);
+            color: #7fb08a;
+            text-decoration: line-through;
+            cursor: not-allowed;
+        }
+
+        .slotDipilih,
+        .slotDipilih:hover {
+            background-color: #ffd54a;
+            border-color: #ffd54a;
+            color: black;
+        }
+
+        @media (max-width: 700px) {
+            #container,
+            .dlg-isi {
+                flex-direction: column;
+            }
+
+            #gambarLokasi {
+                width: 100%;
+                height: 220px;
+            }
+
+            #kalenderDialog {
+                width: 94vw;
+            }
+
+            .kalenderKonten,
+            .jadwal {
+                width: auto;
+            }
         }
     </style>
 </head>
 <body>
     <?php include("tambahan/header.php"); ?>
 
-    <div style="display: flex; margin: 20px 0px 20px 20px;">
+    <main>
+
+    <div id="container">
         <img id="gambarLokasi" src="<?php echo $dataLokasi->gambar ?>">
-        <div style="margin-left: 20px;">
-            <h2 id="namaLokasi"><?php echo $dataLokasi->nama ?></h2>
-            <div class="teksDeskripsi">
-                <p><?php echo $dataLokasi->deskripsi ?></p>
-            </div>
-            <div style="display: flex;">
-                <p>Alamat: <?php echo $dataLokasi->alamat ?></p>
-            </div>
+        <div id="container-2">
+            <h2 id="nama-lokasi"><?php echo $dataLokasi->nama ?></h2>
+            <p id="alamat">Alamat: <?php echo $dataLokasi->alamat ?></p>
+            <p id="teks-detail"><?php echo $dataLokasi->deskripsi ?></p>
         </div>
     </div>
 
-    <form id="inputLokasiDanJadwal" action="dataPribadi.php" method="POST" style="display: grid; margin: 20px 20px;">
-        <div style="display: flex;">
-            <div style="display: grid;">
-                <label for="jenisLayanan">Pilih Jenis Pemeriksaan</label>
-                <select id="jenisLayanan" name="jenisLayanan" required>
-                    <option value="" disabled selected>Pilih</option>
-                    <?php $j = 0; while($j < $i){ ?>
-                    <option value="<?= $j ?>"><?= $dataLayananLokasi[$j]->nama ?></option>
-                    <?php $j++; } ?>
-                </select>
-            </div>
-            <p id="durasi" style="margin-left: 30px;">Durasi: </p>
-            <p id="harga" style="margin-left: 30px;">Harga: </p>
+    <form id="input-layanan-dan-jadwal" action="dataPribadi.php" method="POST">
+        <div style="display: grid;">
+            <label for="jenisLayanan">Pilih Jenis Pemeriksaan</label>
+            <select id="jenisLayanan" name="jenisLayanan" required>
+                <option value="" disabled selected>Pilih</option>
+                <?php $i = 0; while($dataLayananLokasi[$i]){ ?>
+                <option value="<?= $i ?>"><?= $dataLayananLokasi[$i]->nama ?></option>
+                <?php $i++; } ?>
+            </select>
+        </div>
+        <div id="durasi-harga">
+            <p id="durasi" style="display: none">Durasi: </p>
+            <p id="harga" style="display: none;">Harga: </p>
         </div>
 
-        <label for="inputJadwal">Pilih Jadwal</label>
-
-        <button type="button" id="openKalender">Pilih tanggal</button>
-
-        <p id="errorTanggal" style="color: red; display: none;">
-            Silakan pilih tanggal terlebih dahulu!
-        </p>
+        <label for="open-kalender">Pilih Jadwal</label>
+        <button type="button" id="open-kalender">Pilih</button>
 
         <dialog id="kalenderDialog">
-            <div style="display: flex;">
+            <div class="dlg-isi">
                 <div class="kalenderKonten">
                     <div class="kalenderHeader">
                         <h2><span id="month"></span> <span id="year"></span></h2>
-                        <button type="button" id="closeKalender">✕</button>
+                        <button type="button" id="close-kalender">✕</button>
                     </div>
-        
+
                     <div class="kalenderNav">
                         <button type="button" id="prev">‹</button>
                         <button type="button" id="today">Hari ini</button>
                         <button type="button" id="next">›</button>
                     </div>
+
+                    <div class="nama-hari">
+                        <span>Sen</span><span>Sel</span><span>Rab</span><span>Kam</span><span>Jum</span><span>Sab</span><span>Min</span>
+                    </div>
                     <div id="dayColl" style="display: grid;"></div>
+
+                    <div class="legenda">
+                        <span class="l-tersedia">Tersedia</span>
+                        <span class="l-penuh">Penuh</span>
+                        <span class="l-libur">Tidak ada jadwal</span>
+                    </div>
                     <button type="button" id="pilihTanggal">Pilih tanggal</button>
                 </div>
-                <div class="jadwal">
+                <div class="jadwal" id="panelJadwal" style="display: none;">
                     <h1 id="greenBoxTanggal"></h1>
                     <div id="daftarSlot"></div>
                 </div>
@@ -269,15 +477,17 @@ while ($data = $query->fetch_object()) {
 
         <input type="hidden" name="jamMulai" id="inputJamMulai">
         <input type="hidden" name="jamSelesai" id="inputJamSelesai">
-        
+
         <input id="inputJadwal" type="hidden" name="jadwal">
-        <p id="displayTanggalTerpilih">Jadwal</p>
+        <p id="displayTanggalTerpilih" style="display: none;">Jadwal</p>
 
         <input type="hidden" name="layananLokasiId" id="layananLokasiId">
 
-        <input id="submit" type="submit" name="lokasiLayanan" value="Kirim">
+        <input id="submit" type="submit" name="lokasiLayanan" value="Kirim" style="display: none;">
     </form>
-    
+
+    </main>
+
     <script>
         const BULAN=["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
         const HARI=["Senin","Selasa","Rabu","Kamis","Jumat","Sabtu","Minggu"];
@@ -286,7 +496,9 @@ while ($data = $query->fetch_object()) {
         const kalenderDialog = document.getElementById("kalenderDialog");
         const prev = document.getElementById("prev");
         const next = document.getElementById("next");
+        const keToday = document.getElementById("today")
         const greenBoxTanggal = document.getElementById("greenBoxTanggal");
+        const panelJadwal = document.getElementById("panelJadwal");
         let currentYear = today.getFullYear();
         let currentMonth = today.getMonth();
         
@@ -299,11 +511,12 @@ while ($data = $query->fetch_object()) {
         const harga = document.getElementById("harga");
         const layananLokasiId = document.getElementById("layananLokasiId");
         const inputJadwal = document.getElementById("inputJadwal");
-        const displayTanggalTerpilih = document.getElementById("displayTanggalTerpilih");
+        let displayTanggalTerpilih = document.getElementById("displayTanggalTerpilih");
         
         const daftarSlot = document.getElementById("daftarSlot");
         const inputJamMulai = document.getElementById("inputJamMulai");
         const inputJamSelesai = document.getElementById("inputJamSelesai");
+        let submit = document.getElementById("submit");
 
         let tanggalTerpilih;
         let jamMulaiTerpilih;
@@ -337,23 +550,24 @@ while ($data = $query->fetch_object()) {
                     dayBox.type = "button";
                     if(renderingDate.getMonth() == month && renderingDate >= today){
                         if(!cariJadwal(renderingDate)){
-                            dayBox.className = "offDay";
+                            dayBox.className = "off-day";
                         }
                         else{
                             if(cekPenuh(renderingDate)){
                                 dayBox.className = "penuh";
                             }
                             else{
-                                dayBox.className = "availableDay";
+                                dayBox.className = "available-day";
                             }
                             dayBox.dataset.year = renderingDate.getFullYear();
                             dayBox.dataset.month = renderingDate.getMonth();
                             dayBox.dataset.date = renderingDate.getDate();
+                            if(formatTanggal(renderingDate) == tanggalTerpilih){ dayBox.classList.add("dipilih"); }
                             dayBox.addEventListener("click", function(){pilihTanggal(dayBox.dataset.year, dayBox.dataset.month, dayBox.dataset.date)})
                         }
                     }
                     else{
-                        dayBox.className = "unavailableDay";
+                        dayBox.className = "unavailable-day";
                     }
                     dayBox.textContent = renderingDate.getDate();
         
@@ -461,6 +675,8 @@ while ($data = $query->fetch_object()) {
             jamMulaiTerpilih = undefined;      
             jamSelesaiTerpilih = undefined;
             tampilkanSlot(greenBoxDate);
+            panelJadwal.style.display = "block";
+            renderKalender(currentYear, currentMonth);
         }
  
         prev.onclick = () => {
@@ -475,7 +691,13 @@ while ($data = $query->fetch_object()) {
             renderKalender(currentYear, currentMonth);
         };
 
-        document.getElementById("openKalender").onclick = () => {
+        keToday.onclick = () => {
+            currentYear = today.getFullYear();
+            currentMonth = today.getMonth();
+            renderKalender(currentYear, currentMonth);
+        };
+
+        document.getElementById("open-kalender").onclick = () => {
             if(!jenisLayanan.value){ alert("Pilih jenis pemeriksaan dulu"); return; }
             currentYear = today.getFullYear();
             currentMonth = today.getMonth();
@@ -483,7 +705,7 @@ while ($data = $query->fetch_object()) {
             kalenderDialog.showModal();
         };
 
-        document.getElementById("closeKalender").onclick = () => {
+        document.getElementById("close-kalender").onclick = () => {
             kalenderDialog.close();
         }
         
@@ -495,17 +717,11 @@ while ($data = $query->fetch_object()) {
             inputJadwal.value = tanggalTerpilih;
             inputJamMulai.value = jamMulaiTerpilih;
             inputJamSelesai.value = jamSelesaiTerpilih;
+            displayTanggalTerpilih.style.display = "block";
             displayTanggalTerpilih.textContent = tanggalTerpilih + ", " + jamMulaiTerpilih + " - " + jamSelesaiTerpilih;
+            submit.style.display = "block";
             kalenderDialog.close();
         };
-
-
-        document.querySelector("#inputLokasiDanJadwal").addEventListener("submit", function(e) {
-            if (!inputJadwal.value) {
-                e.preventDefault();
-                document.getElementById("errorTanggal").style.display = "block";
-            }
-        });
 
         jenisLayanan.addEventListener("change", function() {
             inputJadwal.value = "";
@@ -517,8 +733,11 @@ while ($data = $query->fetch_object()) {
             displayTanggalTerpilih.textContent = "Jadwal";
             daftarSlot.innerHTML = "";
             greenBoxTanggal.textContent = "";
+            panelJadwal.style.display = "none";
             let layananId = parseInt(jenisLayanan.value);
+            durasi.style.display = "block";
             durasi.textContent = "Durasi: " + dataLayananLokasi[layananId].durasi_menit + "menit";
+            harga.style.display = "block";
             harga.textContent = "Harga: " + dataLayananLokasi[layananId].harga;
             layananLokasiId.value = dataLayananLokasi[layananId].id;
         });

@@ -27,32 +27,39 @@ if (isset($_POST["login"])) {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>login</title>
+    <title>Masuk</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <?php if (isset($error)): {
-        echo $error;
-    } ?>
-    <?php endif; ?>
-    <form method="POST">
-        email :
-        <input type="email" name="email" placeholder="input email">
-        <br>
-        password :
-        <input type="password" name="password" placeholder="input password">
-        <br>
-        <input type="submit" name="login" value="login">
-    </form>
-    <p>
-        Haven't An Account Yet? <a href="register.php" class="register">Register Here</a>
-    </p>
+    <div class="kartu">
+        <h1 class="judul-kartu">Masuk</h1>
+
+        <?php if (isset($error)): ?>
+            <p class="error"><?= $error; ?></p>
+        <?php endif; ?>
+
+        <form method="POST">
+            <div class="kolom">
+                <label for="email">Email</label>
+                <input class="isian" id="email" type="email" name="email" placeholder="Masukkan email" required>
+            </div>
+            <div class="kolom">
+                <label for="password">Password</label>
+                <input class="isian" id="password" type="password" name="password" placeholder="Masukkan password" required>
+            </div>
+            <input class="tombol tombol-penuh" type="submit" name="login" value="Masuk">
+        </form>
+
+        <p class="teks-bawah">
+            Belum punya akun? <a href="register.php" class="register">Daftar di sini</a>
+        </p>
+    </div>
 </body>
 
 </html>

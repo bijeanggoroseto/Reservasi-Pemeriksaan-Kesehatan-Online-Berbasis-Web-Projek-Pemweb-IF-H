@@ -46,66 +46,37 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>pembayaran</title>
+    <title>Pembayaran</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        #kotakInput {
-            margin-top: 50px;
-            width: 600px;
-            height: 350px;
-            border-radius: 5px;
-            border: 1px solid gray;
-            justify-self: center;
-        }
-
-        #nominal {
-            margin-left: 20px;
-            font-size: 20px;
-        }
-
-        h2 {
-            height: 20px;
-            justify-self: center;
-            font-size: 30px;
-        }
-
-        input {
-            margin: 20px 0px 20px 20px;
-            width: 100px;
-            height: 20px;
-        }
-
-        label {
-            margin: 20px 0px 20px 20px;
-            font-size: 20px;
-        }
-    </style>
 </head>
 <body>
     <?php include("tambahan/header.php"); ?>
 
-    <div id="kotakInput">
-        <h2>Konfirmasi Pembayaran</h2>
-        <div style="display: flex;">
-            <p id="nominal">
-                Pasien: <?= $detail["nama_pasien"]; ?> 
-                (<?= $detail["nama_layanan"]; ?>) <br>
-                Nominal Pembayaran: <br>
-                <strong>Rp <?=number_format($detail["harga"], 0, ",", "."); ?></strong>
-            </p>
+    <div class="kartu kartu-lebar">
+        <h2 class="judul-kartu">Konfirmasi Pembayaran</h2>
+
+        <div class="ringkasan">
+            <p class="baris-data"><b>Pasien</b> <span><?= $detail["nama_pasien"]; ?></span></p>
+            <p class="baris-data"><b>Layanan</b> <span><?= $detail["nama_layanan"]; ?></span></p>
+            <p class="baris-data"><b>Nominal</b> <span class="nominal">Rp <?= number_format($detail["harga"], 0, ",", "."); ?></span></p>
         </div>
+
         <form method="POST">
-            <label for="metode">Metode Pembayaran</label>
-            <select name="metode" id="metode" required>
-                <option value="qris">QRIS</option>
-                <option value="tunai">Tunai</option>
-            </select><br>
-            <input type="submit" name="bayar" value="BAYAR">
+            <div class="kolom">
+                <label for="metode">Metode Pembayaran</label>
+                <select class="isian" name="metode" id="metode" required>
+                    <option value="qris">QRIS</option>
+                    <option value="tunai">Tunai</option>
+                </select>
+            </div>
+            <input class="tombol tombol-penuh" type="submit" name="bayar" value="BAYAR">
         </form>
+
+        <p class="teks-bawah"><a href="reservasi.php" class="beranda">Kembali</a></p>
     </div>
 </body>
 </html>

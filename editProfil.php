@@ -77,55 +77,62 @@ if (isset($_POST["simpanProfil"])) {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>edit profil</title>
+    <title>Edit Profil</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <?php
-        if (isset($error)) {
-            echo $error;
-        }
-    ?>
-    <form method="POST" enctype="multipart/form-data">
-        <div>
-            <label>Nama</label> <br>
-            <input type="text" name="nama" value="<?= $user['nama']; ?>" required>
-        </div>
-        <br>
-        <div>
-            <label>Email</label> <br>
-            <input type="email" name="email_baru" value="<?= $user['email']; ?>" required>
-        </div>
-        <br>
-        <div>
-            <label>No. Hp</label> <br>
-            <input type="text" name="no_hp" value="<?= $user['no_hp']; ?>" required>
-        </div>
-        <br>
-        <div>
-            <label>Password</label> <br>
-            <input type="text" name="password" value="<?= $user['password']; ?>" required>
-        </div>
-        <br>
+    <?php include("tambahan/header.php"); ?>
 
-        <input type="file" name="foto" id="foto" accept="image/*">
+    <div class="kartu kartu-edit">
+        <h2 class="judul-kartu">Edit Profil</h2>
 
-        <img src="<?= $fotoPreview ?>" id="preview" width="200">
+        <?php if (isset($error)): ?>
+            <p class="error"><?= $error; ?></p>
+        <?php endif; ?>
 
-        <button type="button" id="batal" style="display: none;">Batal</button>
+        <form method="POST" enctype="multipart/form-data" class="form-edit">
+            <div class="kolom-foto">
+                <label for="foto">Foto Profil</label>
+                <img src="<?= $fotoPreview ?>" id="preview" alt="Foto profil">
+                <input class="isian" type="file" name="foto" id="foto" accept="image/*">
 
-        <button type="button" id="hapusFoto" value="">Hapus Foto</button>
-        <input type="hidden" name="hapusFoto" id="inputHapus">
+                <div class="tombol-baris">
+                    <button type="button" id="batal" class="tombol tombol-abu" style="display: none;">Batal</button>
+                    <button type="button" id="hapusFoto" class="tombol tombol-merah" value="">Hapus Foto</button>
+                </div>
+                <input type="hidden" name="hapusFoto" id="inputHapus">
+            </div>
 
-        <input type="hidden" value="<?= $user['email']; ?>" name="email_lama">
-        <button type="submit" name="simpanProfil">Simpan Perubahan</button>
-    </form>
+            <div class="kolom-isian">
+                <div class="kolom">
+                    <label for="nama">Nama</label>
+                    <input class="isian" id="nama" type="text" name="nama" value="<?= $user['nama'] ?? ''; ?>" required>
+                </div>
+                <div class="kolom">
+                    <label for="email_baru">Email</label>
+                    <input class="isian" id="email_baru" type="email" name="email_baru" value="<?= $user['email'] ?? ''; ?>" required>
+                </div>
+                <div class="kolom">
+                    <label for="no_hp">No. HP</label>
+                    <input class="isian" id="no_hp" type="text" name="no_hp" value="<?= $user['no_hp'] ?? ''; ?>" required>
+                </div>
+                <div class="kolom">
+                    <label for="password">Password</label>
+                    <input class="isian" id="password" type="password" name="password" value="<?= $user['password'] ?? ''; ?>" required>
+                </div>
+            </div>
 
-    <p><a href="profil.php" class="beranda">Kembali</a></p> 
+            <input type="hidden" value="<?= $user['email'] ?? ''; ?>" name="email_lama">
+            <div class="aksi-simpan">
+                <button type="submit" name="simpanProfil" class="tombol tombol-penuh">Simpan Perubahan</button>
+                <p class="teks-bawah"><a href="profil.php" class="beranda">Kembali</a></p>
+            </div>
+        </form>
+    </div>
 
 <script>
     const fotoPreview = <?= json_encode($fotoPreview) ?>;
