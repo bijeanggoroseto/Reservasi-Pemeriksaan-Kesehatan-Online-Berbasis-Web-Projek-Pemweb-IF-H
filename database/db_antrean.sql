@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 15 Nov 2026 pada 22.34
+-- Waktu pembuatan: 16 Nov 2026 pada 17.21
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -137,6 +137,13 @@ CREATE TABLE `pembayaran` (
   `dibayar_pada` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data untuk tabel `pembayaran`
+--
+
+INSERT INTO `pembayaran` (`id`, `reservasi_id`, `jumlah`, `metode`, `dibayar_pada`) VALUES
+(8, 48, 20000, 'qris', '2026-11-15 21:42:11');
+
 -- --------------------------------------------------------
 
 --
@@ -181,6 +188,13 @@ CREATE TABLE `reservasi` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Dumping data untuk tabel `reservasi`
+--
+
+INSERT INTO `reservasi` (`id`, `pengguna_id`, `nama`, `tanggal_lahir`, `jenis_kelamin`, `dibuat_pada`, `layanan_lokasi_id`, `jam_mulai`, `jam_selesai`, `jadwal`, `status_pembayaran`) VALUES
+(48, 4, 'bije anggoro seto', '2026-11-16', 'male', '2026-11-15 21:42:11', 20, '16:00:00', '17:00:00', '2026-11-19', 1);
+
+--
 -- Indexes for dumped tables
 --
 
@@ -216,6 +230,7 @@ ALTER TABLE `lokasi`
 --
 ALTER TABLE `pembayaran`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uq_pembayaran_reservasi` (`reservasi_id`),
   ADD KEY `reservasi_id` (`reservasi_id`);
 
 --
@@ -264,7 +279,7 @@ ALTER TABLE `lokasi`
 -- AUTO_INCREMENT untuk tabel `pembayaran`
 --
 ALTER TABLE `pembayaran`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT untuk tabel `pengguna`
@@ -276,7 +291,7 @@ ALTER TABLE `pengguna`
 -- AUTO_INCREMENT untuk tabel `reservasi`
 --
 ALTER TABLE `reservasi`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
